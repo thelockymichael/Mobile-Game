@@ -30,9 +30,10 @@ public class PlayerMovement : MonoBehaviour {
 
         anim.SetFloat("Speed", Mathf.Abs(horizontalMove));
 
-        if (InputDevice.Action1.WasPressed)
+        if (InputDevice.Action1)
         {
             jump = true;
+            anim.SetBool("IsJumping", true);
         }
 
        if (InputDevice.LeftStickDown)
@@ -45,10 +46,20 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
+    public void OnLanding()
+    {
+        anim.SetBool("IsJumping", false);
+    }
+
+       public void OnCrouching(bool IsCrouching)
+    {
+        anim.SetBool("IsCrouching", IsCrouching);
+    }
+
     // FixedUpdate is called before update and works better with rigidbodies
     void FixedUpdate () {
 
-        PlayerController.Move(horizontalMove * Time.fixedDeltaTime, false, jump);
+        PlayerController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
         jump = false;
 
         var InputDevice = InputManager.ActiveDevice;
