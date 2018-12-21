@@ -22,10 +22,21 @@ public class PlayerMovement : MonoBehaviour {
     private void Update()
     {
 
-        anim = GetComponent<Animator>();
+        
+    }
+
+    // FixedUpdate is called before update and works better with rigidbodies
+    void FixedUpdate () {
+
+        PlayerController.Move(horizontalMove * Time.deltaTime, crouch, jump);
+        jump = false;
 
         var InputDevice = InputManager.ActiveDevice;
-
+        // Action1
+        // LeftStick
+        // Input.GetAxisRaw()
+        anim = GetComponent<Animator>();
+               
         horizontalMove = InputDevice.LeftStickX * runSpeed;
 
         anim.SetFloat("Speed", Mathf.Abs(horizontalMove));
@@ -36,11 +47,12 @@ public class PlayerMovement : MonoBehaviour {
             anim.SetBool("IsJumping", true);
         }
 
-       if (InputDevice.LeftStickDown)
+        if (InputDevice.LeftStickDown)
         {
             crouch = true;
-        } 
-       else if (InputDevice.LeftStickUp)
+        }
+
+        else if (InputDevice.LeftStickUp || !InputDevice.LeftStick)
         {
             crouch = false;
         }
@@ -51,45 +63,9 @@ public class PlayerMovement : MonoBehaviour {
         anim.SetBool("IsJumping", false);
     }
 
-       public void OnCrouching(bool IsCrouching)
+    public void OnCrouching(bool IsCrouching)
     {
         anim.SetBool("IsCrouching", IsCrouching);
     }
-
-    // FixedUpdate is called before update and works better with rigidbodies
-    void FixedUpdate () {
-
-        PlayerController.Move(horizontalMove * Time.fixedDeltaTime, crouch, jump);
-        jump = false;
-
-        var InputDevice = InputManager.ActiveDevice;
-        // Action1
-        // LeftStick
-        // Input.GetAxisRaw()
-
-        if (InputDevice.LeftStickLeft)
-        {
-
-        }
-
-        if (InputDevice.LeftStickRight)
-        {
-
-        }
-
-        if (InputDevice.LeftStickX)
-        {
-
-        }
-
-        if (InputDevice.Action1.WasPressed) // A
-        {
-
-        }
-
-        if (InputDevice.Action2.WasPressed) // B
-        {
-
-        }
-    }
+      
 }

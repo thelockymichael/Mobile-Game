@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Coin
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - PostProcessing
   - Player
   - Ground
-  - 
+  - Mobile Controls
   - 
   - 
   - 
@@ -40,6 +41,12 @@ TagManager:
   m_SortingLayers:
   - name: Background
     uniqueID: 1114607659
+    locked: 0
+  - name: Props
+    uniqueID: 2423466915
+    locked: 0
+  - name: Other props
+    uniqueID: 1067861201
     locked: 0
   - name: Foreground
     uniqueID: 1609904345
