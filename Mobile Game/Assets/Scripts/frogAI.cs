@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+
 public class frogAI : MonoBehaviour
 {
-    public GameObject Player;
+    //public GameObject Player;
   
     public float moveSpeed = 3f;
     public float jumpHeight = 5f;
@@ -16,12 +17,15 @@ public class frogAI : MonoBehaviour
 
     private Rigidbody2D rb;
     private Animator anim;
+    private PlayerMovement player;
+
   //  public Vector3 moveDirection;
 
     private bool isGrounded = false;
     private bool attacked = false;
+    private bool isTouching = false;
 
-    public bool knockedBack;
+    public float knockBack = 100f;
 
     //public PlayerMovement playerController;
 
@@ -63,6 +67,7 @@ public class frogAI : MonoBehaviour
     }
     private void Start()
     {
+        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
         healthFrog = startingHealthFrog;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
@@ -71,7 +76,7 @@ public class frogAI : MonoBehaviour
     public void OnLanding()
 
     {
-        anim.SetBool("IsJumping", false);
+         anim.SetBool("IsJumping", false);
     }
     /*
     IEnumerator attackDelay()
@@ -86,13 +91,15 @@ public class frogAI : MonoBehaviour
 
     private void Update()
     {
+        
+
         if (healthFrog <= 0)
         {  //tot
             StartCoroutine("Death");
             Debug.Log("Frog died");
 
         }
-        Debug.Log(healthFrog);
+        //Debug.Log(healthFrog);
     }
     void Death()
     {
@@ -105,25 +112,49 @@ public class frogAI : MonoBehaviour
     }
 
 
-/* IEnumerator frogjump()
- {
-
-     yield return new WaitForSeconds(1);
-     rb.AddForce(Vector2.up * jumpHeight);
- }
- */
-
-
-
-private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        if (collision.gameObject.CompareTag("Ground") && m_GroundCheck && !isTouching)
         {
-           
+            Debug.Log("IT IS NOT TOUCHING THE PLAYER");
             Debug.Log("Frog collides with ground");
             //anim.SetBool("IsJumping", true);
             StartCoroutine("frogJump");
         }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            //Debug.Log("IT IS TOUCHING PLAYER");
+            //isTouching = true;
+            
+            player.Damage(3);
+
+            //anim.SetBool("IsJumping", false);
+            // collision.SendMessage("Damage", damage);
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        }
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            anim.SetBool("IsJumping", false);
+            Debug.Log("IT IS TOUCHING PLAYER");
+            isTouching = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // rb.constraints = RigidbodyConstraints2D.None;
+            anim.SetBool("IsJumping", false);
+            Debug.Log("IT HAS STOPPED TOUCHING PLAYER");
+            isTouching = false;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+             }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -131,7 +162,7 @@ private void OnCollisionEnter2D(Collision2D collision)
            if (collision.gameObject.CompareTag("attackTrigger"))
         {
            Vector3 moveDirection = rb.transform.position - collision.transform.position ;
-            rb.AddForce(moveDirection.normalized * 500f);
+            rb.AddForce(moveDirection.normalized * knockBack);
         }
     }
     /*
@@ -163,7 +194,7 @@ private void OnCollisionEnter2D(Collision2D collision)
         // this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(3, 0);
        // moveDirection = rb.transform.position - Player.transform.position;
 
-        knockedBack = true;
+      //  knockedBack = true;
 
         yield return new WaitForSeconds(hurtDelay);
 
@@ -171,7 +202,7 @@ private void OnCollisionEnter2D(Collision2D collision)
 
        // rb.AddForce(moveDirection.normalized * -500f);
         // this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
-        knockedBack = false;
+        //knockedBack = false;
 /*
         this.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(1, 0);
         knockedBack = true;
@@ -184,15 +215,20 @@ private void OnCollisionEnter2D(Collision2D collision)
     
     IEnumerator frogJump()
     { 
+        if(!isTouching)
+        {
             yield return new WaitForSeconds(populationRate);
             anim.SetBool("IsJumping", true);
             rb.AddForce(Vector2.up * jumpHeight);
             rb.AddForce(Vector2.right * -moveSpeed);
             Debug.Log("Jumping");
+            isTouching = false;
             yield return new WaitForSeconds(frogIdle);
             //anim.SetBool("IsJumping", false);
             yield return null;
             //   }
         }
+
+    }
 
     }

@@ -179,7 +179,7 @@ MonoBehaviour:
   populationRate: 3
   hurtDelay: 0.2
   frogIdle: 1.5
-  knockedBack: 0
+  knockBack: 500
   healthFrog: 0
   startingHealthFrog: 100
   OnLandEvent:
@@ -200,7 +200,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 5632
+    m_Bits: 5943
   m_GroundCheck: {fileID: 5724303875398780291}
 --- !u!50 &5724303874363385382
 Rigidbody2D:

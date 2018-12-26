@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 using InControl;
 
 
@@ -10,9 +13,10 @@ public class PlayerMovement : MonoBehaviour {
     public CharacterController2D PlayerController;
 
     //Health 
+    public int maximumHealth = 20;
+    public int currentHealth;
 
 
-    public float currentHealth = 200;
 
     // Movement and crouching
     private float horizontalMove = 0f;
@@ -25,7 +29,8 @@ public class PlayerMovement : MonoBehaviour {
     bool attack = false;
     private float attackTimer = 0;
     private float attackDelay = 0.2f;
-
+    public float knockBack = 200f;
+    public Transform attackMove;
 
     //Get these components
     private Rigidbody2D rb;
@@ -40,14 +45,25 @@ public class PlayerMovement : MonoBehaviour {
         {
             Debug.Log("YOU'VE HIT AN ENEMY " + damage);
             col.SendMessage("Damage", damage);
-            
+
             // Destroy(col.gameObject);
             // FrogAI.Damage(damage);
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("PLAYER TOUCHES ENEMY");
+            Vector3 moveDirection = rb.transform.position - collision.transform.position;
+            rb.AddForce(moveDirection.normalized * knockBack * 20);
+        }
+    }
+
     private void Start()
     {
+        currentHealth = maximumHealth;
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -59,16 +75,18 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     // FixedUpdate is called before update and works better with rigidbodies
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
 
         PlayerController.Move(horizontalMove * Time.deltaTime, crouch, jump);
         jump = false;
+
 
         var InputDevice = InputManager.ActiveDevice;
         // Action1
         // LeftStick
         // Input.GetAxisRaw()
-               
+
         horizontalMove = InputDevice.LeftStickX * runSpeed;
 
         anim.SetFloat("Speed", Mathf.Abs(horizontalMove));
@@ -85,11 +103,14 @@ public class PlayerMovement : MonoBehaviour {
             attackTimer = attackDelay;
 
             attackTrigger.enabled = true;
-           // StartCoroutine("AttackDelay");
+            // StartCoroutine("AttackDelay");
         }
 
-        if(attack)
+        if (attack)
         {
+            Vector3 moveDirection = rb.transform.position - attackMove.transform.position;
+            rb.AddForce(moveDirection.normalized * -knockBack);
+
             if (attackTimer > 0)
             {
                 attackTimer -= Time.deltaTime;
@@ -111,7 +132,29 @@ public class PlayerMovement : MonoBehaviour {
         {
             crouch = false;
         }
+        if (currentHealth > maximumHealth)
+        {
+            currentHealth = maximumHealth;
+        }
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
+
+    public void Damage (int damage)
+    {
+        currentHealth -= damage;
+        StartCoroutine("getHurtDelay");
+        Debug.Log("PLAYER HAS TAKEN DAMAGE");
+    }
+    IEnumerator getHurtDelay()
+    {
+        anim.SetBool("IsHurt", true);
+        yield return new WaitForSeconds(1);
+        anim.SetBool("IsHurt", false);
+    }
+
     /*
     IEnumerator AttackDelay()
     {
@@ -122,7 +165,7 @@ public class PlayerMovement : MonoBehaviour {
         anim.SetBool("IsAttacking", false);
         }
         */
-        public void OnLanding()
+    public void OnLanding()
     {
         anim.SetBool("IsJumping", false);
     }
@@ -131,5 +174,8 @@ public class PlayerMovement : MonoBehaviour {
     {
         anim.SetBool("IsCrouching", IsCrouching);
     }
-      
+      public void Die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }
