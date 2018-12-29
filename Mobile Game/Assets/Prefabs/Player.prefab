@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 58396091736795696}
   - component: {fileID: 61719826675811246}
   - component: {fileID: 114696793373270992}
+  - component: {fileID: 622230081}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -119,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 1003618822012750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 1}
+  m_LocalScale: {x: 8.1, y: 8.1, z: 1}
   m_Children:
   - {fileID: 4514972339396684}
   - {fileID: 4803876167172522}
@@ -279,7 +280,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1003618822012750}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: b891e45a1477773438bde277f4a4b74d, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -332,6 +333,20 @@ MonoBehaviour:
   knockBack: 100
   attackMove: {fileID: 597690748}
   attackTrigger: {fileID: 1532719471}
+--- !u!114 &622230081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003618822012750}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6838b245198d6bd47a85a825438b8a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteSheetName: character
+  number: 1
 --- !u!1 &1357773205982764
 GameObject:
   m_ObjectHideFlags: 0

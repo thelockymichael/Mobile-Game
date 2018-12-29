@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             Debug.Log("PLAYER TOUCHES ENEMY");
             Vector3 moveDirection = rb.transform.position - collision.transform.position;
-            rb.AddForce(moveDirection.normalized * knockBack * 20);
+            rb.AddForce(moveDirection.normalized * knockBack * 10);
         }
     }
 

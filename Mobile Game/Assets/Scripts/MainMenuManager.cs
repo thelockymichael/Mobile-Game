@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,17 +9,32 @@ using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour {
 
+   // public GameObject player;
+    //public GameObject[] playerSkins;
 
     public GameObject levelButtonPrefab;
-    public GameObject levelButtoncontainer;
+    public GameObject levelButtonContainer;
+    public GameObject shopButtonPrefab;
+    public GameObject shopButtonContainer;
 
     private Transform cameraTransform;
     private Transform cameraDesiredLookAt;
-        
+
+    public GameObject Player;
+   
+    public ReSkinAnimation reskin;
+
+   // public int index;
+
+    // public string spriteSheetName; //=  "character";
+    // public int index = 1;
 
     // Use this for initialization
     void Start()
     {
+        ChangePlayerSkin(4);
+        //reskin.index = 4;
+        // ChangePlayerSkin (GameManager.Instance.currentSkinIndex);
         cameraTransform = Camera.main.transform;
 
         Sprite[] thumbnails = Resources.LoadAll<Sprite>("Levels");
@@ -26,10 +42,23 @@ public class MainMenuManager : MonoBehaviour {
         {
             GameObject container = Instantiate(levelButtonPrefab) as GameObject;
             container.GetComponent<Image>().sprite = thumbnail;
-            container.transform.SetParent(levelButtoncontainer.transform, false);
+            container.transform.SetParent(levelButtonContainer.transform, false);
 
             string sceneName = thumbnail.name;
-            container.GetComponent<Button>().onClick.AddListener (() => LoadLevel(sceneName));
+            container.GetComponent<Button>().onClick.AddListener(() => LoadLevel(sceneName));
+        }
+
+        int textureIndex = 1;
+        Sprite[] textures = Resources.LoadAll<Sprite>("Player");
+        foreach (Sprite texture in textures)
+        {
+            GameObject container = Instantiate(shopButtonPrefab) as GameObject;
+            container.GetComponent<Image>().sprite = texture;
+            container.transform.SetParent(shopButtonContainer.transform, false);
+
+            int index = textureIndex;
+            container.GetComponent<Button>().onClick.AddListener(() => ChangePlayerSkin(index));
+            textureIndex++;
         }
     }
 
@@ -37,6 +66,8 @@ public class MainMenuManager : MonoBehaviour {
     // Update is called once per frame
     private void Update()
     {
+
+        //Debug.Log(reskin.index);
         if (cameraDesiredLookAt != null)
         {
             cameraTransform.rotation = Quaternion.Slerp(cameraTransform.rotation, cameraDesiredLookAt.rotation, 3 * Time.deltaTime);
@@ -55,34 +86,71 @@ public class MainMenuManager : MonoBehaviour {
         // Camera.main.transform.LookAt(menuTransform.position);
         cameraDesiredLookAt = menuTransform;
     }
+
+    public void ChangePlayerSkin(int index)
+    {
+        if (index == 1)
+        {
+            reskin.indexia = 1;
+        }
+
+        if (index == 2)
+        {
+            reskin.indexia = 2;
+        }
+        if(index == 3)
+        {
+            reskin.indexia = 3;
+        }
+        if (index == 4)
+        {
+            reskin.indexia = 4;
+        }
+
+        // ChangePlayerSkin(4);
+    }
     /*
-    public void LookAtLevelSelectMenu ()
+    private void ChangePlayerSkin(int index)
     {
-        //float speed = 20f;
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        //Camera.main.transform.Translate(menuTransform.position);
-        //Camera.main.transform.LookAt(menuTransform.position); 
-        Camera.main.transform.Translate(2500, 0, 0);
-       // Camera.main.transform.position = Vector2.MoveTowards(Camera.main.transform.position, menuTransform.position,
-       //     speed * Time.deltaTime);
-      //  Camera.main.transform.right = menuTransform.position - Camera.main.transform.position;
+        Debug.Log("Change player skin");
+
+        var subSprites = Resources.LoadAll<Sprite>("Characters/" + spriteSheetName + index);
+
+        foreach (var renderer in Player.GetComponentsInChildren<SpriteRenderer>())
+        {
+            string spriteName = renderer.sprite.name;
+            var newSprite = Array.Find(subSprites, item => item.name == spriteName);
+
+            if (newSprite)
+            {
+                renderer.sprite = newSprite;
+            }
+        }
+     }*/
+    /*
+    private void LateUpdate()
+    {
+        var subSprites = Resources.LoadAll<Sprite>("Characters/" + spriteSheetName + index);
+
+        foreach (var renderer in GetComponentsInChildren<SpriteRenderer>())
+        {
+            string spriteName = renderer.sprite.name;
+            var newSprite = Array.Find(subSprites, item => item.name == spriteName);
+
+            if (newSprite)
+            {
+                renderer.sprite = newSprite;
+            }
+        }
+    }*/
+
+
+    private void FixedUpdate()
+    {
+        
     }
 
-    public void LookAtShop()
-    {
-        Camera.main.transform.Translate(-2500, 0, 0);
-    }
 
-    public void LookAtMainMenuFromLevelSelect()
-    {
-        Camera.main.transform.Translate(-2500, 0, 0);
-    }
-
-    public void LookAtMainMenuFromShop()
-    {
-        Camera.main.transform.Translate(2500, 0, 0);
-    }
-    */
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
