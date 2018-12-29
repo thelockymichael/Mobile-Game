@@ -30,9 +30,10 @@ public class MainMenuManager : MonoBehaviour {
     // public int index = 1;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
-        ChangePlayerSkin(4);
+        ChangePlayerSkin(GameManager.Instance.currentSkinIndex);
+
         //reskin.index = 4;
         // ChangePlayerSkin (GameManager.Instance.currentSkinIndex);
         cameraTransform = Camera.main.transform;
@@ -93,7 +94,6 @@ public class MainMenuManager : MonoBehaviour {
         {
             reskin.indexia = 1;
         }
-
         if (index == 2)
         {
             reskin.indexia = 2;
@@ -106,7 +106,7 @@ public class MainMenuManager : MonoBehaviour {
         {
             reskin.indexia = 4;
         }
-
+        GameManager.Instance.currentSkinIndex = index;
         // ChangePlayerSkin(4);
     }
     /*
