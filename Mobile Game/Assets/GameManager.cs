@@ -7,12 +7,12 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
-    public int currentSkinIndex = 1;
+    public int currentSkinIndex = 0;
     public int currency = 0;
-    public int skinAvailability = 2;
+    public int skinAvailability = 1;
 
     // Start is called before the first frame update
-    void Awake()
+   private void Awake()
     {
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -26,15 +26,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetInt("CurrentSkin", currentSkinIndex);
-            PlayerPrefs.SetInt("Currency", currency);
-            PlayerPrefs.SetInt("SkinAvailability", 2);
+            Save();
         }
     }
-
-    private void Save()
+    public void Save()
     {
-
+        PlayerPrefs.SetInt("CurrentSkin", currentSkinIndex);
+        PlayerPrefs.SetInt("Currency", currency);
+        PlayerPrefs.SetInt("SkinAvailability", skinAvailability);
     }
 
     // Update is called once per frame

@@ -16,6 +16,7 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject levelButtonContainer;
     public GameObject shopButtonPrefab;
     public GameObject shopButtonContainer;
+    public Text currencyText;
 
     private Transform cameraTransform;
     private Transform cameraDesiredLookAt;
@@ -30,10 +31,10 @@ public class MainMenuManager : MonoBehaviour {
     // public int index = 1;
 
     // Use this for initialization
-    void Awake()
+    private void Start()
     {
         ChangePlayerSkin(GameManager.Instance.currentSkinIndex);
-
+        currencyText.text = "Currency : " + GameManager.Instance.currency.ToString();
         //reskin.index = 4;
         // ChangePlayerSkin (GameManager.Instance.currentSkinIndex);
         cameraTransform = Camera.main.transform;
@@ -49,7 +50,7 @@ public class MainMenuManager : MonoBehaviour {
             container.GetComponent<Button>().onClick.AddListener(() => LoadLevel(sceneName));
         }
 
-        int textureIndex = 1;
+        int textureIndex = 0;
         Sprite[] textures = Resources.LoadAll<Sprite>("Player");
         foreach (Sprite texture in textures)
         {
@@ -59,6 +60,28 @@ public class MainMenuManager : MonoBehaviour {
 
             int index = textureIndex;
             container.GetComponent<Button>().onClick.AddListener(() => ChangePlayerSkin(index));
+
+            if (index == 0 && GameManager.Instance.skinAvailability <= 3)
+            {
+                container.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
+
+            if (index == 1 && GameManager.Instance.skinAvailability >= 1)
+            {
+                  container.transform.GetChild(0).gameObject.SetActive(false) ;
+
+            }
+            if (index == 2 && GameManager.Instance.skinAvailability >= 2)
+            {
+                container.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
+            if (index == 3 && GameManager.Instance.skinAvailability >= 3)
+            {
+                container.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
             textureIndex++;
         }
     }
@@ -90,61 +113,243 @@ public class MainMenuManager : MonoBehaviour {
 
     public void ChangePlayerSkin(int index)
     {
-        if (index == 1)
+        int cost = 0;
+
+
+        //  if ((GameManager.Instance.skinAvailability == 0))
+        //   {
+        if (index == 0 && GameManager.Instance.skinAvailability <=3)
         {
-            reskin.indexia = 1;
+           // GameManager.Instance.currency -= cost;
+            GameManager.Instance.Save();
+            GameManager.Instance.currentSkinIndex = 0;
+            Debug.Log(index);
+            reskin.indexia = 0;
         }
-        if (index == 2)
+        if (index == 1 && GameManager.Instance.skinAvailability == 0 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 1;
+                GameManager.Instance.skinAvailability += 1;
+                Debug.Log(index);
+                reskin.indexia = 1;
+            }
+        if (index == 2 && GameManager.Instance.skinAvailability == 1 && GameManager.Instance.currency >= cost)
         {
+            GameManager.Instance.currency -= cost;
+            GameManager.Instance.Save();
+            GameManager.Instance.currentSkinIndex = 2;
+            GameManager.Instance.skinAvailability += 1;
+            Debug.Log(index);
             reskin.indexia = 2;
         }
-        if(index == 3)
+        if (index == 3 && GameManager.Instance.skinAvailability == 2 && GameManager.Instance.currency >= cost)
         {
+            GameManager.Instance.currency -= cost;
+            GameManager.Instance.Save();
+            GameManager.Instance.currentSkinIndex = 3;
+            GameManager.Instance.skinAvailability += 1;
+            Debug.Log(index);
             reskin.indexia = 3;
         }
-        if (index == 4)
+
+        // Player skin 1!!!
+        if (index == 1 && GameManager.Instance.skinAvailability == 1)
         {
-            reskin.indexia = 4;
+            GameManager.Instance.currentSkinIndex = 1;
+
+            GameManager.Instance.Save();
+          //  GameManager.Instance.currentSkinIndex = 1;
+       
+            Debug.Log(index);
+            reskin.indexia = 1;
         }
-        GameManager.Instance.currentSkinIndex = index;
-        // ChangePlayerSkin(4);
+        if (index == 1 && GameManager.Instance.skinAvailability == 2)
+        {
+            GameManager.Instance.currentSkinIndex = 1;
+            GameManager.Instance.Save();
+          //  GameManager.Instance.currentSkinIndex = 1;
+
+            Debug.Log(index);
+            reskin.indexia = 1;
+        }
+        if (index == 1 && GameManager.Instance.skinAvailability == 3)
+        {
+            GameManager.Instance.currentSkinIndex = 1;
+           // GameManager.Instance.skinAvailability -= ;
+            GameManager.Instance.Save();
+           // GameManager.Instance.currentSkinIndex = 1;
+
+            Debug.Log(index);
+            reskin.indexia = 1;
+        }
+
+        // Player skin 2!!
+        if (index == 2 && GameManager.Instance.skinAvailability == 3 )
+        {
+            GameManager.Instance.currentSkinIndex = 2;
+
+            GameManager.Instance.Save();
+           // GameManager.Instance.currentSkinIndex = 2;
+            Debug.Log(index);
+            reskin.indexia = 2;
+        }
+        if (index == 2 && GameManager.Instance.skinAvailability == 2)
+        {
+            GameManager.Instance.currentSkinIndex = 2;
+            GameManager.Instance.Save();
+            // GameManager.Instance.currentSkinIndex = 2;
+            Debug.Log(index);
+            reskin.indexia = 2;
+        }
+
+        // Player skin 3!!
+
+        if (index == 3 && GameManager.Instance.skinAvailability == 3)
+        {
+            GameManager.Instance.currentSkinIndex = 3;
+
+            GameManager.Instance.Save();
+            // GameManager.Instance.currentSkinIndex = 2;
+            Debug.Log(index);
+            reskin.indexia = 3;
+        }
+        /*
+        int cost = 0;
+        if ((GameManager.Instance.skinAvailability == 3))
+        {
+            if (index == 0 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 0;
+
+                Debug.Log(index);
+                reskin.indexia = 0;
+            }
+            if (index == 1 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 1;
+
+                Debug.Log(index);
+
+                reskin.indexia = 1;
+            }
+            if (index == 2 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 2;
+
+                Debug.Log(index);
+
+                reskin.indexia = 2;
+            }
+            if (index == 3 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 3;
+
+                Debug.Log(index);
+
+                reskin.indexia = 3;
+            }
+        }
+
+        if ((GameManager.Instance.skinAvailability == 2))
+        {
+            if (index == 0 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 0;
+
+                Debug.Log(index);
+                reskin.indexia = 0;
+            }
+            if (index == 1 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 1;
+
+                Debug.Log(index);
+
+                reskin.indexia = 1;
+            }
+            if (index == 2 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 2;
+
+                Debug.Log(index);
+
+                reskin.indexia = 2;
+            }
+        }
+
+        if ((GameManager.Instance.skinAvailability == 1))
+        {
+            if (index == 0 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 0;
+
+                Debug.Log(index);
+                reskin.indexia = 0;
+            }
+            if (index == 1 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 1;
+
+                Debug.Log(index);
+
+                reskin.indexia = 1;
+            }
+        }
+
+        if ((GameManager.Instance.skinAvailability == 0))
+        {
+            if (index == 0 && GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.Save();
+                GameManager.Instance.currentSkinIndex = 0;
+
+                Debug.Log(index);
+                reskin.indexia = 0;
+            }
+        }
+        else
+        {
+            //You do not have the skin, do you want to buy it?
+            int cost = 0;
+            if (GameManager.Instance.currency >= cost)
+            {
+                GameManager.Instance.currency -= cost;
+                GameManager.Instance.skinAvailability += 1 << index;
+                GameManager.Instance.Save();
+
+            }
+
+
+        }*/
+
+
+
     }
-    /*
-    private void ChangePlayerSkin(int index)
-    {
-        Debug.Log("Change player skin");
+    
+    
 
-        var subSprites = Resources.LoadAll<Sprite>("Characters/" + spriteSheetName + index);
-
-        foreach (var renderer in Player.GetComponentsInChildren<SpriteRenderer>())
-        {
-            string spriteName = renderer.sprite.name;
-            var newSprite = Array.Find(subSprites, item => item.name == spriteName);
-
-            if (newSprite)
-            {
-                renderer.sprite = newSprite;
-            }
-        }
-     }*/
-    /*
-    private void LateUpdate()
-    {
-        var subSprites = Resources.LoadAll<Sprite>("Characters/" + spriteSheetName + index);
-
-        foreach (var renderer in GetComponentsInChildren<SpriteRenderer>())
-        {
-            string spriteName = renderer.sprite.name;
-            var newSprite = Array.Find(subSprites, item => item.name == spriteName);
-
-            if (newSprite)
-            {
-                renderer.sprite = newSprite;
-            }
-        }
-    }*/
-
-
+  
     private void FixedUpdate()
     {
         
