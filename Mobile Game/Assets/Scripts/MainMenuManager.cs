@@ -33,8 +33,9 @@ public class MainMenuManager : MonoBehaviour {
     // Use this for initialization
     private void Start()
     {
+        GameManager.Instance.currency = 1500;
         ChangePlayerSkin(GameManager.Instance.currentSkinIndex);
-        currencyText.text = "Currency : " + GameManager.Instance.currency.ToString();
+        currencyText.text = "Coins : " + GameManager.Instance.currency.ToString();
         //reskin.index = 4;
         // ChangePlayerSkin (GameManager.Instance.currentSkinIndex);
         cameraTransform = Camera.main.transform;
@@ -61,27 +62,28 @@ public class MainMenuManager : MonoBehaviour {
             int index = textureIndex;
             container.GetComponent<Button>().onClick.AddListener(() => ChangePlayerSkin(index));
 
-            if (index == 0 && GameManager.Instance.skinAvailability <= 3)
+            if (GameManager.Instance.skinAvailability <= 3 && index == 0)
+            {
+                container.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
+            if (GameManager.Instance.skinAvailability > 0 && index == 1)
+            {
+                container.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
+            if (GameManager.Instance.skinAvailability > 1 && index == 2)
+            {
+                container.transform.GetChild(0).gameObject.SetActive(false);
+
+            }
+            if (GameManager.Instance.skinAvailability > 2 && index == 3)
             {
                 container.transform.GetChild(0).gameObject.SetActive(false);
 
             }
 
-            if (index == 1 && GameManager.Instance.skinAvailability >= 1)
-            {
-                  container.transform.GetChild(0).gameObject.SetActive(false) ;
 
-            }
-            if (index == 2 && GameManager.Instance.skinAvailability >= 2)
-            {
-                container.transform.GetChild(0).gameObject.SetActive(false);
-
-            }
-            if (index == 3 && GameManager.Instance.skinAvailability >= 3)
-            {
-                container.transform.GetChild(0).gameObject.SetActive(false);
-
-            }
             textureIndex++;
         }
     }
@@ -113,12 +115,12 @@ public class MainMenuManager : MonoBehaviour {
 
     public void ChangePlayerSkin(int index)
     {
-        int cost = 0;
+        int cost = 150;
 
 
         //  if ((GameManager.Instance.skinAvailability == 0))
         //   {
-        if (index == 0 && GameManager.Instance.skinAvailability <=3)
+        if (index == 0 && GameManager.Instance.skinAvailability <= 3)
         {
            // GameManager.Instance.currency -= cost;
             GameManager.Instance.Save();
@@ -133,8 +135,13 @@ public class MainMenuManager : MonoBehaviour {
                 GameManager.Instance.currentSkinIndex = 1;
                 GameManager.Instance.skinAvailability += 1;
                 Debug.Log(index);
-                reskin.indexia = 1;
-            }
+            currencyText.text = "Coins : " + GameManager.Instance.currency.ToString();
+
+            reskin.indexia = 1;
+            shopButtonContainer.transform.GetChild(index).GetChild(0).gameObject.SetActive(false);
+            ChangePlayerSkin(index);
+
+        }
         if (index == 2 && GameManager.Instance.skinAvailability == 1 && GameManager.Instance.currency >= cost)
         {
             GameManager.Instance.currency -= cost;
@@ -142,7 +149,13 @@ public class MainMenuManager : MonoBehaviour {
             GameManager.Instance.currentSkinIndex = 2;
             GameManager.Instance.skinAvailability += 1;
             Debug.Log(index);
+            currencyText.text = "Coins : " + GameManager.Instance.currency.ToString();
+
             reskin.indexia = 2;
+            shopButtonContainer.transform.GetChild(index).GetChild(0).gameObject.SetActive(false);
+            ChangePlayerSkin(index);
+
+
         }
         if (index == 3 && GameManager.Instance.skinAvailability == 2 && GameManager.Instance.currency >= cost)
         {
@@ -151,7 +164,12 @@ public class MainMenuManager : MonoBehaviour {
             GameManager.Instance.currentSkinIndex = 3;
             GameManager.Instance.skinAvailability += 1;
             Debug.Log(index);
+            currencyText.text = "Coins : " + GameManager.Instance.currency.ToString();
+
             reskin.indexia = 3;
+            shopButtonContainer.transform.GetChild(index).GetChild(0).gameObject.SetActive(false);
+            ChangePlayerSkin(index);
+
         }
 
         // Player skin 1!!!

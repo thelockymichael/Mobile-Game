@@ -2534,7 +2534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSkinIndex: 0
-  currency: 0
+  currency: 1500
   skinAvailability: 0
 --- !u!4 &1510460931
 Transform:

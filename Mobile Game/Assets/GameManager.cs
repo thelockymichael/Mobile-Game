@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public int currentSkinIndex = 0;
     public int currency = 0;
-    public int skinAvailability = 1;
+    public int skinAvailability = 0;
 
     // Start is called before the first frame update
    private void Awake()
