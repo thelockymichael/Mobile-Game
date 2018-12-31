@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSheetName: character
-  number: 1
+  indexia: 0
 --- !u!1 &1357773205982764
 GameObject:
   m_ObjectHideFlags: 0

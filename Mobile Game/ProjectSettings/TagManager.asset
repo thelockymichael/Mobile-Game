@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - gameOver
   - attackTrigger
+  - Manifest
   layers:
   - Default
   - TransparentFX
