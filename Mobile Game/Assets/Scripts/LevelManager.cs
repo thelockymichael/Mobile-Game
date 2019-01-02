@@ -25,7 +25,7 @@ public class LevelManager : MonoBehaviour
 
     public void Victory()
     {
-        Debug.Log("YOU HAVE WON");
+       // Debug.Log("YOU HAVE WON");
 
     }
 

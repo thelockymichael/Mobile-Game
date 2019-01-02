@@ -11,7 +11,7 @@ public class ReSkinAnimation : MonoBehaviour
     public int indexia;
    
 
-    private void LateUpdate()
+    private void FixedUpdate()
     {
       
         var subSprites = Resources.LoadAll<Sprite>("Characters/" + spriteSheetName + indexia);

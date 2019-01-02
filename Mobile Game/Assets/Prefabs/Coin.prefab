@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1073058538}
   - component: {fileID: 1073058540}
   - component: {fileID: 1073058539}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4712,7 +4712,7 @@ GameObject:
   - component: {fileID: 50605841963904460}
   - component: {fileID: 61758107172337436}
   - component: {fileID: 7005455282466642928}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Coin
   m_TagString: Coin
   m_Icon: {fileID: 0}

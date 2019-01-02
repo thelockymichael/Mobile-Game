@@ -42,7 +42,7 @@ public class PickupManager : MonoBehaviour
             //if-else block to determine effect of item
             if (this.gameObject.tag == "Coin")
             {
-                GameManager.Instance.currency += 1;
+               // GameManager.Instance.currency += 1;
 
             }/*
             else if (this.gameObject.tag == "Health")

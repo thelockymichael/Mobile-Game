@@ -16,8 +16,6 @@ public class PlayerMovement : MonoBehaviour {
     public int maximumHealth = 20;
     public int currentHealth;
 
-
-
     // Movement and crouching
     private float horizontalMove = 0f;
     public float runSpeed = 40f;
