@@ -21,7 +21,7 @@ public class coinScript : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (enter)
         {
@@ -73,7 +73,7 @@ public class coinScript : MonoBehaviour
         }
     }
 
-    private void OnCollisionExit(Collision2D other)
+    private void OnCollisionExit2D(Collision2D other)
     {
         if (other.gameObject.tag == "Player")
         {

@@ -21,8 +21,8 @@ public class PickupManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!sound.isPlaying && collected == true)
-            Destroy(gameObject);
+      //  if (!sound.isPlaying && collected == true)
+        //    Destroy(gameObject);
     }
 
     void OnTriggerEnter2D(Collider2D other)
